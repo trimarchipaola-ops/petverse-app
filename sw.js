@@ -1,13 +1,20 @@
-// Service worker: rende l'app disponibile anche offline dopo la prima apertura.
-// Quando modifichi i file, aumenta il numero di versione per aggiornare la cache.
-const CACHE = 'petverse-v2';
+// Service worker: l'app resta utilizzabile anche offline.
+// Strategia "prima la rete": quando c'è connessione si vedono sempre i file aggiornati,
+// senza connessione si usa la copia salvata. Le chiamate a Supabase non passano dalla cache.
+const CACHE = 'petverse-v3';
 const FILES = [
   './',
   './index.html',
+  './app.js',
+  './config.js',
   './manifest.webmanifest',
   './asset/cane_felice.webp',
   './asset/gatto_felice.webp',
   './asset/cane_volo.webp',
+  './asset/coniglio_felice.webp',
+  './asset/criceto_felice.webp',
+  './asset/uccellino_felice.webp',
+  './asset/geco_felice.webp',
   './asset/pianeta_crocchetta.webp',
   './icons/icon-192.png',
   './icons/icon-512.png',
@@ -30,13 +37,11 @@ self.addEventListener('activate', e => {
 
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
+  if (new URL(e.request.url).origin !== location.origin) return;
   e.respondWith(
-    caches.match(e.request, { ignoreSearch: true }).then(hit => hit || fetch(e.request).then(res => {
-      if (res.ok && new URL(e.request.url).origin === location.origin) {
-        const copy = res.clone();
-        caches.open(CACHE).then(c => c.put(e.request, copy));
-      }
+    fetch(e.request).then(res => {
+      if (res.ok) { const copy = res.clone(); caches.open(CACHE).then(c => c.put(e.request, copy)); }
       return res;
-    }).catch(() => caches.match('./index.html')))
+    }).catch(() => caches.match(e.request, { ignoreSearch: true }).then(hit => hit || caches.match('./index.html')))
   );
 });

@@ -52,6 +52,26 @@
  .bottom-nav{position:absolute;height:72px;padding:9px 6px 10px}
  .toast{bottom:26px}
 }
+/* Account, moduli e risultati della Guida */
+[hidden]{display:none!important}
+.account{border:1px solid #4a3a63;background:#1b1729;border-radius:15px;padding:13px;margin:4px 0 14px}
+.account h5{margin:0 0 4px;font-size:13px}.account p{margin:0;font-size:11px;color:#b5a8c9;line-height:1.5}
+.account .who{display:flex;align-items:center;gap:8px;font-size:11px;color:#d9cdec}.account .who b{color:#f1c6fa;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.miniform{display:grid;gap:8px;margin-top:10px}.miniform .row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.miniform input,.miniform select{width:100%;min-width:0;border:1px solid #504163;border-radius:12px;background:#1a1726;color:#eee6fb;padding:11px 12px;font-size:16px;outline:none}
+.miniform input:focus,.miniform select:focus{border-color:#bc87ff}
+.miniform .cta{padding:12px}
+.petactions{display:flex;gap:8px;flex-wrap:wrap;margin:-6px 0 6px}
+.remrow.done h5{text-decoration:line-through;opacity:.55}
+.remrow .check{width:26px;height:26px;border-radius:9px;border:1px solid #6a4f8c;background:#221b36;color:#9ff0c4;font-size:14px;margin:0;flex:none}
+.empty{font-size:11px;color:#978dab;padding:8px 2px}
+.urg{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.04em;padding:4px 9px;border-radius:10px;margin:4px 0 8px;background:#1f3b31;color:#9ff0c4}
+.urg.emergenza{background:#5a1f2c;color:#ffb4c2}.urg.entro_24_ore{background:#4a3417;color:#ffd38a}.urg.entro_pochi_giorni{background:#2e2a55;color:#cdbcff}
+.resultbox.emergency{border-color:#ff5d7a;background:#33192a}
+.resultbox ul{margin:8px 0 0;padding-left:18px;font-size:11px;color:#d7cbe8;line-height:1.55}
+.resultbox .note{font-size:10px;color:#a99fbc;margin-top:8px}
+.spinner{display:inline-block;width:12px;height:12px;border:2px solid #120817;border-right-color:transparent;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
 </style></head><body>
 <div class="canvas" id="petverseConcept"><div class="stars"></div>
@@ -60,7 +80,7 @@
 <section class="screen-group current" id="screen-home"><div class="screen-kicker"><b>01</b> La tua home</div><div class="phone"><div class="screen"><div class="status"><span>9:41</span><span class="staticons">●●● ▰</span></div><div class="screen-body">
 <div class="brand-mini-row"><div class="brandmini"><span>PETVERSE</span></div><button class="roundbtn" type="button" data-toast="Notifiche: prototipo dimostrativo" aria-label="Notifiche">♧</button></div>
 <div class="hello">Il loro mondo, a portata di mano ✨</div><div class="h1">Come sta il tuo <span class="gradienttext">amico?</span></div>
-<div class="pet-strip"><button class="pet-chip" aria-pressed="true" type="button" data-pet="Milo"><img src="asset/cane_felice.webp" alt="Mascotte cane PetVerse"><span><strong>Milo</strong><small>Cane · 4 anni</small></span></button><button class="pet-chip" aria-pressed="false" type="button" data-pet="Luna"><img src="asset/gatto_felice.webp" alt="Mascotte gatto PetVerse"><span><strong>Luna</strong><small>Gatto · 8 anni</small></span></button></div>
+<div class="pet-strip" id="petStrip"><button class="pet-chip" aria-pressed="true" type="button" data-pet="Milo"><img src="asset/cane_felice.webp" alt="Mascotte cane PetVerse"><span><strong>Milo</strong><small>Cane · 4 anni</small></span></button><button class="pet-chip" aria-pressed="false" type="button" data-pet="Luna"><img src="asset/gatto_felice.webp" alt="Mascotte gatto PetVerse"><span><strong>Luna</strong><small>Gatto · 8 anni</small></span></button></div>
 <div class="hero-card"><div class="hero-eyebrow">✦ GUIDA PETVERSE</div><h3>Un dubbio? <span style="color:#dfb1ff">Parti da qui.</span></h3><p>Capisci meglio il bisogno e scopri a chi rivolgerti.</p><button class="cta" type="button" data-goto="screen-guida">Inizia la guida <span>↗</span></button><img class="mascot" src="asset/cane_volo.webp" alt="Cagnolino viola PetVerse"></div>
 <div class="install-tip" id="installTip"><span style="font-size:18px">📲</span><span><b>Aggiungila alla Home.</b> <span id="installText">iPhone: tocca Condividi ⬆︎ e poi “Aggiungi alla schermata Home”. Android: menu ⋮ → “Installa app”.</span></span><button type="button" id="installClose" aria-label="Chiudi suggerimento">✕</button></div>
 <div class="sectionrow"><div class="sectiontitle">Tutto quello che serve</div><span class="disclaimer">per loro</span></div>
@@ -71,9 +91,9 @@
 <div class="h1">Capiamo insieme <span class="gradienttext">cosa serve.</span></div><p class="explain">Ti aiutiamo a mettere a fuoco il bisogno. Poi ti mostriamo il professionista o il servizio adatto, con una spiegazione.</p>
 <div class="label">Di cosa hai bisogno?</div><div class="choice-wrap" id="needChoices"><button class="choice" aria-pressed="true" data-need="Salute" type="button">🩺 Salute</button><button class="choice" aria-pressed="false" data-need="Alimentazione" type="button">🥣 Alimentazione</button><button class="choice" aria-pressed="false" data-need="Comportamento" type="button">🐾 Comportamento</button><button class="choice" aria-pressed="false" data-need="Altri servizi" type="button">✦ Altri servizi</button></div>
 <div class="label">Raccontaci cosa hai notato</div><textarea class="textinput" id="problemText" aria-label="Descrivi il problema" placeholder="Es. Il mio cane si gratta spesso da qualche giorno..."></textarea>
-<div class="hintbar"><span style="font-size:15px">◇</span><span><b>Sei tu a decidere.</b> I tuoi dati sono usati solo per personalizzare il percorso. Nessuna diagnosi automatica.</span></div>
+<div class="hintbar"><span style="font-size:15px">◇</span><span><b>Sei tu a decidere.</b> La Guida ti orienta verso la figura giusta: non fa diagnosi. Se hai effettuato l'accesso, la richiesta resta salvata nel tuo profilo. <b>In caso di emergenza chiama subito il veterinario.</b></span></div>
 <button class="cta fullbutton" id="guideGo" type="button">Scopri a chi rivolgerti <span>➜</span></button>
-<div class="resultbox" id="guideResult" aria-live="polite"><div class="step">IL PROSSIMO PASSO</div><h4 id="guideResultTitle">Veterinario</h4><p id="guideResultText">Per bisogni legati alla salute, il veterinario è il riferimento corretto. Descrivi i segnali osservati.</p><button class="cta" type="button" data-goto="screen-esperti">Vedi professionisti ↗</button></div>
+<div class="resultbox" id="guideResult" aria-live="polite"><div class="step">IL PROSSIMO PASSO</div><h4 id="guideResultTitle">Veterinario</h4><span class="urg" id="guideUrg" hidden></span><p id="guideResultText">Per bisogni legati alla salute, il veterinario è il riferimento corretto. Descrivi i segnali osservati.</p><ul id="guidePrep" hidden></ul><div class="note" id="guideNote" hidden></div><button class="cta" type="button" data-goto="screen-esperti">Vedi professionisti ↗</button></div>
 </div><nav class="bottom-nav" aria-label="Navigazione guida"><button type="button" data-goto="screen-home"><span class="n-ico">⌂</span>Home</button><button class="active" type="button" data-goto="screen-guida"><span class="n-ico">✦</span>Guida</button><button type="button" data-goto="screen-esperti"><span class="n-ico">✚</span>Esperti</button><button type="button" data-goto="screen-profilo"><span class="n-ico">♧</span>Profilo</button></nav></div></div></section>
 <section class="screen-group" id="screen-esperti"><div class="screen-kicker"><b>03</b> Professionisti giusti</div><div class="phone"><div class="screen"><div class="status"><span>9:41</span><span class="staticons">●●● ▰</span></div><div class="screen-body">
 <div class="brand-mini-row"><div class="brandmini"><span>PETVERSE</span></div><span class="smallpill"><i>●</i> Network</span></div>
@@ -85,76 +105,35 @@
 <div class="no-directories">✦ <b>Chiarezza prima di tutto:</b> PetVerse indica la figura adatta e ti aiuta a preparare le informazioni utili al contatto.</div>
 </div><nav class="bottom-nav" aria-label="Navigazione esperti"><button type="button" data-goto="screen-home"><span class="n-ico">⌂</span>Home</button><button type="button" data-goto="screen-guida"><span class="n-ico">✦</span>Guida</button><button class="active" type="button" data-goto="screen-esperti"><span class="n-ico">✚</span>Esperti</button><button type="button" data-goto="screen-profilo"><span class="n-ico">♧</span>Profilo</button></nav></div></div></section>
 <section class="screen-group" id="screen-profilo"><div class="screen-kicker"><b>04</b> Un profilo, tutto connesso</div><div class="phone"><div class="screen"><div class="status"><span>9:41</span><span class="staticons">●●● ▰</span></div><div class="screen-body">
-<div class="brand-mini-row"><div class="brandmini"><span>PETVERSE</span></div><button class="roundbtn" type="button" data-toast="Impostazioni profilo disponibili nella versione completa" aria-label="Impostazioni">⚙</button></div><div class="h1">Il mondo di <span class="gradienttext">Milo.</span></div>
-<div class="profilehero"><img src="asset/cane_felice.webp" alt="Cane PetVerse"><div><b>Milo 🐾</b><p>Cane · 4 anni<br>Profilo dimostrativo</p><span class="p-tag">✦ Personalizza il profilo</span></div></div>
+<div class="brand-mini-row"><div class="brandmini"><span>PETVERSE</span></div><button class="roundbtn" type="button" data-toast="Impostazioni profilo disponibili nella versione completa" aria-label="Impostazioni">⚙</button></div><div class="h1">Il mondo di <span class="gradienttext" id="profileTitle">Milo</span>.</div>
+<div class="account" id="accountCard" hidden>
+ <div id="accOut"><h5>Accedi per salvare i tuoi dati</h5><p>Ti mandiamo un link via email: niente password da ricordare.</p>
+  <form class="miniform" id="loginForm"><input type="email" id="loginEmail" required autocomplete="email" placeholder="la-tua@email.it" aria-label="Email"><button class="cta" type="submit">Inviami il link ✉︎</button></form></div>
+ <div id="accIn" hidden><div class="who">👤 <b id="accEmail"></b><button class="textlink" type="button" id="logoutBtn" style="margin-left:auto">Esci</button></div></div>
+</div>
+<div class="profilehero"><img id="profileImg" src="asset/cane_felice.webp" alt="Mascotte del tuo animale"><div><b id="profileName">Milo 🐾</b><p id="profileMeta">Cane · 4 anni<br>Profilo dimostrativo</p><span class="p-tag" id="profileTag">✦ Personalizza il profilo</span></div></div>
+<div class="petactions" id="petActions" hidden><button class="ghost" type="button" id="addPetBtn">＋ Aggiungi un animale</button><button class="ghost" type="button" id="delPetBtn">Elimina questo profilo</button></div>
+<form class="miniform" id="petForm" hidden>
+ <input id="petName" required maxlength="40" placeholder="Nome (es. Milo)" aria-label="Nome dell'animale">
+ <div class="row2"><select id="petSpecies" aria-label="Specie"><option value="cane">Cane</option><option value="gatto">Gatto</option><option value="coniglio">Coniglio</option><option value="criceto">Criceto</option><option value="uccellino">Uccellino</option><option value="rettile">Rettile</option><option value="altro">Altro</option></select>
+ <input id="petAge" type="number" min="0" max="40" inputmode="numeric" placeholder="Età (anni)" aria-label="Età in anni"></div>
+ <button class="cta" type="submit">Salva il profilo</button>
+</form>
 <div class="sectionrow" id="memo"><div class="sectiontitle">La sua vita, organizzata</div><span class="disclaimer">tutto in un posto</span></div>
 <div class="listrow"><span class="roundicon">▤</span><div><h5>Cartella del pet</h5><p>Documenti, note, terapie</p></div><button type="button" data-toast="Puoi archiviare le informazioni del tuo pet nella versione completa" aria-label="Apri cartella">›</button></div>
 <div class="listrow"><span class="roundicon">▦</span><div><h5>Vaccini e promemoria</h5><p id="reminderState">Nessuna scadenza inserita</p></div><button type="button" id="addReminder" aria-label="Aggiungi promemoria">＋</button></div>
-<div class="sectionrow" id="food"><div class="sectiontitle">Alimentazione consapevole</div><span class="disclaimer">per Milo</span></div>
+<form class="miniform" id="remForm" hidden>
+ <input id="remTitle" required maxlength="80" placeholder="Es. Richiamo vaccino, antiparassitario…" aria-label="Promemoria">
+ <div class="row2"><input id="remDate" type="date" required aria-label="Data"><button class="cta" type="submit">Aggiungi</button></div>
+</form>
+<div id="remList"></div>
+<div class="sectionrow" id="food"><div class="sectiontitle">Alimentazione consapevole</div><span class="disclaimer" id="foodFor">per Milo</span></div>
 <div class="foodblock"><div class="foodtext"><div class="step">✦ GUIDA ALIMENTARE</div><h4>La scelta che parte da lui.</h4><p>Esigenze, età e abitudini: criteri utili, prima del prodotto.</p><button class="cta" type="button" data-toast="Anteprima alimentazione: risponderai a poche domande sul profilo del pet">Esplora ↗</button></div><img src="asset/pianeta_crocchetta.webp" alt="Pianeta PetVerse a tema alimentazione"></div>
 <div class="partnerline"><span class="dot"></span> Consigli chiari. Eventuali link commerciali sempre segnalati.</div>
 </div><nav class="bottom-nav" aria-label="Navigazione profilo"><button type="button" data-goto="screen-home"><span class="n-ico">⌂</span>Home</button><button type="button" data-goto="screen-guida"><span class="n-ico">✦</span>Guida</button><button type="button" data-goto="screen-esperti"><span class="n-ico">✚</span>Esperti</button><button class="active" type="button" data-goto="screen-profilo"><span class="n-ico">♧</span>Profilo</button></nav></div></div></section>
 </main>
 <footer class="microfooter"><strong>Disegnata sulle prime risposte del Form A.</strong> Il cuore dell'esperienza è orientarsi prima di scegliere: salute, alimentazione, accesso al professionista e promemoria, con i personaggi e la palette originale PetVerse. <span style="opacity:.8">Schermate concettuali · non sono dati reali di animali o servizi.</span></footer>
 <div class="toast" id="petverseToast" role="status" aria-live="polite"></div></div>
-<script>
-(()=>{
- const root=document.getElementById('petverseConcept');if(root.dataset.initialized)return;root.dataset.initialized='1';
- const appMode={matches:true};
- const smooth=()=>matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth';
- const toast=root.querySelector('#petverseToast');let tt;function notify(msg){clearTimeout(tt);toast.textContent=msg;toast.classList.add('on');tt=setTimeout(()=>toast.classList.remove('on'),3300)}
- root.querySelectorAll('[data-toast]').forEach(b=>b.addEventListener('click',()=>notify(b.dataset.toast)));
- function show(id,focusId){
-  const target=document.getElementById(id);if(!target)return;
-  const body=target.querySelector('.screen-body');
-  if(appMode.matches){
-   root.querySelectorAll('.screen-group').forEach(s=>s.classList.toggle('current',s===target));
-   body.scrollTop=0;
-   if(location.hash!=='#'+id)history.replaceState(null,'','#'+id);
-  }else{
-   target.scrollIntoView({behavior:smooth(),block:'nearest',inline:'center'});
-  }
-  if(focusId){const f=target.querySelector('#'+focusId);if(f)body.scrollTo({top:Math.max(0,f.offsetTop-145),behavior:smooth()});}
- }
- root.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.goto,b.dataset.focus)));
- const start=location.hash.slice(1);if(start&&document.getElementById(start)&&appMode.matches)show(start);
- const pets=root.querySelectorAll('[data-pet]');pets.forEach(b=>b.addEventListener('click',()=>{
-  pets.forEach(p=>p.setAttribute('aria-pressed',String(p===b)));notify('Profilo selezionato: '+b.dataset.pet+'. I dati sono dimostrativi.');
- }));
- let need='Salute';root.querySelectorAll('[data-need]').forEach(b=>b.addEventListener('click',()=>{
-  need=b.dataset.need;root.querySelectorAll('[data-need]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
-  root.querySelector('#guideResult').classList.remove('show');
- }));
- root.querySelector('#guideGo').addEventListener('click',()=>{
-  const s=root.querySelector('#problemText').value.trim();if(!s){notify('Raccontaci prima che cosa hai notato, anche in poche parole.');root.querySelector('#problemText').focus();return}
-  const r={Salute:['Veterinario','Per sintomi o cambiamenti nella salute, il veterinario è il riferimento appropriato. Prepara osservazioni e tempi di comparsa.'],Alimentazione:['Veterinario o nutrizionista veterinario','Per un’alimentazione legata a età ed esigenze, confrontati con il professionista più adatto prima di modificare la dieta.'],Comportamento:['Veterinario ed educatore qualificato','Per cambiamenti di comportamento è utile escludere problemi di salute e poi valutare un supporto educativo.'],'Altri servizi':['Professionista del servizio richiesto','PetVerse ti guiderà verso la categoria corretta e ti aiuterà a preparare le informazioni per il contatto.']}[need];
-  root.querySelector('#guideResultTitle').textContent=r[0];root.querySelector('#guideResultText').textContent=r[1];root.querySelector('#guideResult').classList.add('show');root.querySelector('#guideResult').scrollIntoView({behavior:smooth(),block:'nearest'});
- });
- const experts={Salute:[['Veterinario generalista','Per primi controlli, sintomi, salute quotidiana e indicazioni sul percorso di cura.'],['Veterinario specialista','Per approfondire una situazione quando il veterinario consiglia un consulto specialistico.']],Alimentazione:[['Nutrizionista veterinario','Per diete specifiche, sensibilità alimentari ed esigenze legate all’età.'],['Veterinario di riferimento','Per valutare il rapporto tra alimentazione e salute del tuo animale.']],Comportamento:[['Veterinario comportamentalista','Per difficoltà comportamentali da inquadrare insieme alla salute e al contesto.'],['Educatore qualificato','Per percorsi educativi personalizzati e attività quotidiane con il tuo animale.']]};
- root.querySelectorAll('[data-expert]').forEach(b=>b.addEventListener('click',()=>{
-  root.querySelectorAll('[data-expert]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
-  const [a,c]=experts[b.dataset.expert];root.querySelector('#expertName1').textContent=a[0];root.querySelector('#expertDesc1').textContent=a[1];root.querySelector('#expertName2').textContent=c[0];root.querySelector('#expertDesc2').textContent=c[1];
- }));
- root.querySelector('#addReminder').addEventListener('click',()=>{root.querySelector('#reminderState').textContent='Promemoria di esempio aggiunto ✓';notify('Promemoria aggiunto nella demo (nessun dato salvato).')});
-
- // Suggerimento "Aggiungi alla Home": nascosto se l'app è già installata o se è stato chiuso
- const tip=root.querySelector('#installTip');
- const standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
- let dismissed=false;try{dismissed=localStorage.getItem('pv-install-tip')==='off'}catch(e){}
- if(standalone||dismissed)tip.classList.add('hidden');
- root.querySelector('#installClose').addEventListener('click',()=>{tip.classList.add('hidden');try{localStorage.setItem('pv-install-tip','off')}catch(e){}});
- let deferred=null;
- window.addEventListener('beforeinstallprompt',e=>{
-  e.preventDefault();deferred=e;
-  const t=root.querySelector('#installText');t.innerHTML='';const b=document.createElement('button');
-  b.type='button';b.className='cta';b.style.marginTop='6px';b.textContent='Installa PetVerse';
-  b.addEventListener('click',async()=>{if(!deferred)return;deferred.prompt();await deferred.userChoice;deferred=null;tip.classList.add('hidden')});
-  t.appendChild(b);
- });
- window.addEventListener('appinstalled',()=>tip.classList.add('hidden'));
-
- if('serviceWorker' in navigator&&location.protocol.startsWith('http')){
-  window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
- }
-})();
-</script></body></html>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="config.js"></script>
+<script src="app.js"></script></body></html>
